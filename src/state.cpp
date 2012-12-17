@@ -72,11 +72,12 @@ void State::init(int argc, char* args[]) {
 
     SDL_EnableKeyRepeat(0, 0);
 
+
     glMatrixMode(GL_PROJECTION);
-    glFrustum(-1, 1, -1, 1, -1, 1);
-//    gluPerspective(90, (float)WIDTH/HEIGHT, 1, 100);
+    float r = (float)WIDTH/HEIGHT;
+    glOrtho(-r, r, -1, 1, -1, 1);
     glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+
     glClearColor(0, 0, 0, 1);
 
     SDL_Flip(screen);
