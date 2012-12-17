@@ -77,7 +77,7 @@ void State::init(int argc, char* args[]) {
 //    gluPerspective(90, (float)WIDTH/HEIGHT, 1, 100);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    glClearColor(0, 0, 1, 1);
+    glClearColor(0, 0, 0, 1);
 
     SDL_Flip(screen);
 }
