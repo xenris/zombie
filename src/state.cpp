@@ -3,8 +3,10 @@
 State::State() {
     running = true;
     screen = NULL;
-    Player player;
-    players.push_back(player);
+    for(int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
+        players[i] = NULL;
+    Player* player = new Player;
+    addPlayer(player);
     upKey = false;
     downKey = false;
 }
@@ -39,29 +41,38 @@ void State::processInput() {
 
 void State::update() {
     if(downKey) {
-        players.begin()->x -= cos(players.begin()->r*M_PI/180 - M_PI/2)*0.01;
-        players.begin()->y -= sin(players.begin()->r*M_PI/180 + M_PI/2)*0.01;
+        players[0]->x -= cos(players[0]->r*M_PI/180 - M_PI/2)*0.01;
+        players[0]->y -= sin(players[0]->r*M_PI/180 + M_PI/2)*0.01;
     }
     if(upKey) {
-        players.begin()->x += cos(players.begin()->r*M_PI/180 - M_PI/2)*0.01;
-        players.begin()->y += sin(players.begin()->r*M_PI/180 + M_PI/2)*0.01;
+        players[0]->x += cos(players[0]->r*M_PI/180 - M_PI/2)*0.01;
+        players[0]->y += sin(players[0]->r*M_PI/180 + M_PI/2)*0.01;
     }
     if(leftKey)
-        (players.begin())->r -= 4;
+        players[0]->r -= 4;
     if(rightKey)
-        (players.begin())->r += 4;
+        players[0]->r += 4;
 }
 
 void State::draw() {
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
 
-    std::list<Player>::iterator i;
-    for(i = players.begin(); i != players.end(); ++i) {
-        i->draw();
-    }
+    for(int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
+        if(players[i] != NULL)
+            players[i]->draw();
 
     SDL_GL_SwapBuffers();
+}
+
+int State::addPlayer(Player* player) {
+    int i = 0;
+    while(players[i] != NULL && i < MAX_NUMBER_OF_PLAYERS)
+        i++;
+    if(i >= MAX_NUMBER_OF_PLAYERS)
+        return -1;
+    players[i] = player;
+    return 0;
 }
 
 void State::init(int argc, char* args[]) {

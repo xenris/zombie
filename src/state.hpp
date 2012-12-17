@@ -3,18 +3,18 @@
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_opengl.h>
-#include <list>
 #include <cmath>
 #include "player.hpp"
 
 #define WIDTH 700
 #define HEIGHT 500
+#define MAX_NUMBER_OF_PLAYERS 20
 
 class State {
     public:
         bool running;
         SDL_Surface* screen;
-        std::list<Player> players;
+        Player* players[MAX_NUMBER_OF_PLAYERS];
         bool upKey;
         bool downKey;
         bool leftKey;
@@ -25,6 +25,7 @@ class State {
         void processInput();
         void update();
         void draw();
+        int addPlayer(Player* player);
         void init(int argc, char* args[]);
         void uninit();
 };
