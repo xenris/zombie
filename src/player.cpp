@@ -14,6 +14,8 @@ void Player::draw() {
 
     glScalef(0.1, 0.1, 1.0);
 
+    glColor4f(0, 1, 0, 1);
+
     float triangle[] = { 0.0, 1.0, 0.0,
                         -0.5,-1.0, 0.0,
                          0.5,-1.0, 0.0 };
