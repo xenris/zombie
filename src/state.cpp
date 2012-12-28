@@ -35,8 +35,13 @@ void State::processInput() {
                 leftKey = false;
             else if(event.key.keysym.sym == SDLK_RIGHT)
                 rightKey = false;
+        } else if(event.type == SDL_MOUSEMOTION) {
+            if(event.motion.x != WIDTH/2)
+                players[0]->r += (float)event.motion.xrel/5.0;
         }
     }
+
+    SDL_WarpMouse(WIDTH/2, HEIGHT/2);
 }
 
 void State::update() {
@@ -83,6 +88,7 @@ void State::init(int argc, char* args[]) {
 
     SDL_EnableKeyRepeat(0, 0);
 
+    SDL_ShowCursor(SDL_DISABLE);
 
     glMatrixMode(GL_PROJECTION);
     float r = (float)WIDTH/HEIGHT;
