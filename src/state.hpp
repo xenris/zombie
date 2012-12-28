@@ -15,8 +15,6 @@ class State {
         bool running;
         SDL_Surface* screen;
         Player* players[MAX_NUMBER_OF_PLAYERS];
-        bool upKey;
-        bool downKey;
 //        Input input; //TODO
 
         State();

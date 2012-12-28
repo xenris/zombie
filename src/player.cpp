@@ -1,6 +1,7 @@
 #include "player.hpp"
 
 Player::Player() {
+    movement = NONE;
     x = 0;
     y = 0;
     r = 0;

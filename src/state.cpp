@@ -7,8 +7,6 @@ State::State() {
         players[i] = NULL;
     Player* player = new Player;
     addPlayer(player);
-    upKey = false;
-    downKey = false;
 }
 
 void State::processInput() {
@@ -19,14 +17,14 @@ void State::processInput() {
             running = false;
         } else if(event.type == SDL_KEYDOWN) {
             if(event.key.keysym.sym == SDLK_UP)
-                upKey = true;
+                players[0]->movement = WALKING_FORWARD;
             else if(event.key.keysym.sym == SDLK_DOWN)
-                downKey = true;
+                players[0]->movement = WALKING_BACKWARD;
         } else if(event.type == SDL_KEYUP) {
             if(event.key.keysym.sym == SDLK_UP)
-                upKey = false;
+                players[0]->movement = NONE;
             else if(event.key.keysym.sym == SDLK_DOWN)
-                downKey = false;
+                players[0]->movement = NONE;
             if(event.key.keysym.sym == SDLK_ESCAPE)
                 running = false;
         } else if(event.type == SDL_MOUSEMOTION) {
@@ -39,13 +37,13 @@ void State::processInput() {
 }
 
 void State::update() {
-    if(downKey) {
-        players[0]->x -= cos(players[0]->r*M_PI/180 - M_PI/2)*0.01;
-        players[0]->y -= sin(players[0]->r*M_PI/180 + M_PI/2)*0.01;
-    }
-    if(upKey) {
+    if(players[0]->movement == WALKING_FORWARD) {
         players[0]->x += cos(players[0]->r*M_PI/180 - M_PI/2)*0.01;
         players[0]->y += sin(players[0]->r*M_PI/180 + M_PI/2)*0.01;
+    }
+    else if(players[0]->movement == WALKING_BACKWARD) {
+        players[0]->x -= cos(players[0]->r*M_PI/180 - M_PI/2)*0.01;
+        players[0]->y -= sin(players[0]->r*M_PI/180 + M_PI/2)*0.01;
     }
 }
 
