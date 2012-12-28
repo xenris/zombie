@@ -22,19 +22,11 @@ void State::processInput() {
                 upKey = true;
             else if(event.key.keysym.sym == SDLK_DOWN)
                 downKey = true;
-            else if(event.key.keysym.sym == SDLK_LEFT)
-                leftKey = true;
-            else if(event.key.keysym.sym == SDLK_RIGHT)
-                rightKey = true;
         } else if(event.type == SDL_KEYUP) {
             if(event.key.keysym.sym == SDLK_UP)
                 upKey = false;
             else if(event.key.keysym.sym == SDLK_DOWN)
                 downKey = false;
-            else if(event.key.keysym.sym == SDLK_LEFT)
-                leftKey = false;
-            else if(event.key.keysym.sym == SDLK_RIGHT)
-                rightKey = false;
             if(event.key.keysym.sym == SDLK_ESCAPE)
                 running = false;
         } else if(event.type == SDL_MOUSEMOTION) {
@@ -55,10 +47,6 @@ void State::update() {
         players[0]->x += cos(players[0]->r*M_PI/180 - M_PI/2)*0.01;
         players[0]->y += sin(players[0]->r*M_PI/180 + M_PI/2)*0.01;
     }
-    if(leftKey)
-        players[0]->r -= 4;
-    if(rightKey)
-        players[0]->r += 4;
 }
 
 void State::draw() {

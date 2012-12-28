@@ -17,8 +17,6 @@ class State {
         Player* players[MAX_NUMBER_OF_PLAYERS];
         bool upKey;
         bool downKey;
-        bool leftKey;
-        bool rightKey;
 //        Input input; //TODO
 
         State();
