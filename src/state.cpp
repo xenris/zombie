@@ -35,6 +35,8 @@ void State::processInput() {
                 leftKey = false;
             else if(event.key.keysym.sym == SDLK_RIGHT)
                 rightKey = false;
+            if(event.key.keysym.sym == SDLK_ESCAPE)
+                running = false;
         } else if(event.type == SDL_MOUSEMOTION) {
             if(event.motion.x != WIDTH/2)
                 players[0]->r += (float)event.motion.xrel/5.0;
