@@ -4,15 +4,10 @@
 #include <GL/gl.h>
 #include <cmath>
 
-enum MOVEMENT {
-    NONE,
-    WALKING_FORWARD,
-    WALKING_BACKWARD
-};
-
 class Player {
     public:
-        MOVEMENT movement;
+        bool forward;
+        bool backward;
         float x;
         float y;
         float r;

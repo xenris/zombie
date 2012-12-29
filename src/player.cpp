@@ -1,7 +1,8 @@
 #include "player.hpp"
 
 Player::Player() {
-    movement = NONE;
+    forward = false;
+    backward = false;
     x = 0;
     y = 0;
     r = 0;
@@ -32,10 +33,11 @@ void Player::draw() {
 }
 
 void Player::update() {
-    if(movement == WALKING_FORWARD) {
+    if(forward) {
         x += cos(r*M_PI/180 - M_PI/2)*0.01;
         y += sin(r*M_PI/180 + M_PI/2)*0.01;
-    } else if(movement == WALKING_BACKWARD) {
+    }
+    if(backward) {
         x -= cos(r*M_PI/180 - M_PI/2)*0.01;
         y -= sin(r*M_PI/180 + M_PI/2)*0.01;
     }
