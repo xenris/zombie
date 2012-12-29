@@ -3,7 +3,6 @@
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_opengl.h>
-#include <cmath>
 #include "player.hpp"
 
 #define WIDTH 700

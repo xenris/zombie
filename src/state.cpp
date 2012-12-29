@@ -37,14 +37,9 @@ void State::processInput() {
 }
 
 void State::update() {
-    if(players[0]->movement == WALKING_FORWARD) {
-        players[0]->x += cos(players[0]->r*M_PI/180 - M_PI/2)*0.01;
-        players[0]->y += sin(players[0]->r*M_PI/180 + M_PI/2)*0.01;
-    }
-    else if(players[0]->movement == WALKING_BACKWARD) {
-        players[0]->x -= cos(players[0]->r*M_PI/180 - M_PI/2)*0.01;
-        players[0]->y -= sin(players[0]->r*M_PI/180 + M_PI/2)*0.01;
-    }
+    for(int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
+        if(players[i] != NULL)
+            players[i]->update();
 }
 
 void State::draw() {

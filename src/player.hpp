@@ -2,6 +2,7 @@
 #define PLAYER_HPP
 
 #include <GL/gl.h>
+#include <cmath>
 
 enum MOVEMENT {
     NONE,
@@ -18,6 +19,7 @@ class Player {
 
         Player();
         void draw();
+        void update();
 };
 
 #endif

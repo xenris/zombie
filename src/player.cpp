@@ -30,3 +30,14 @@ void Player::draw() {
 
     glPopMatrix();
 }
+
+void Player::update() {
+    if(movement == WALKING_FORWARD) {
+        x += cos(r*M_PI/180 - M_PI/2)*0.01;
+        y += sin(r*M_PI/180 + M_PI/2)*0.01;
+    }
+    else if(movement == WALKING_BACKWARD) {
+        x -= cos(r*M_PI/180 - M_PI/2)*0.01;
+        y -= sin(r*M_PI/180 + M_PI/2)*0.01;
+    }
+}
