@@ -8,6 +8,8 @@ class Player {
     public:
         bool forward;
         bool backward;
+        bool left;
+        bool right;
         float x;
         float y;
         float r;

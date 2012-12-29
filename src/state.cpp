@@ -20,11 +20,19 @@ void State::processInput() {
                 players[0]->forward = true;
             else if(event.key.keysym.sym == SDLK_s)
                 players[0]->backward = true;
+            else if(event.key.keysym.sym == SDLK_a)
+                players[0]->left = true;
+            else if(event.key.keysym.sym == SDLK_d)
+                players[0]->right = true;
         } else if(event.type == SDL_KEYUP) {
             if(event.key.keysym.sym == SDLK_w)
                 players[0]->forward = false;
             else if(event.key.keysym.sym == SDLK_s)
                 players[0]->backward = false;
+            else if(event.key.keysym.sym == SDLK_a)
+                players[0]->left = false;
+            else if(event.key.keysym.sym == SDLK_d)
+                players[0]->right = false;
             if(event.key.keysym.sym == SDLK_ESCAPE)
                 running = false;
         } else if(event.type == SDL_MOUSEMOTION) {

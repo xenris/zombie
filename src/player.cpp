@@ -3,6 +3,8 @@
 Player::Player() {
     forward = false;
     backward = false;
+    left = false;
+    right = false;
     x = 0;
     y = 0;
     r = 0;
@@ -40,5 +42,13 @@ void Player::update() {
     if(backward) {
         x -= cos(r*M_PI/180 - M_PI/2)*0.01;
         y -= sin(r*M_PI/180 + M_PI/2)*0.01;
+    }
+    if(left) {
+        x -= cos((r+90)*M_PI/180 - M_PI/2)*0.008;
+        y -= sin((r+90)*M_PI/180 + M_PI/2)*0.008;
+    }
+    if(right) {
+        x -= cos((r-90)*M_PI/180 - M_PI/2)*0.008;
+        y -= sin((r-90)*M_PI/180 + M_PI/2)*0.008;
     }
 }
