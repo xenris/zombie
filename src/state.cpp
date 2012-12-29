@@ -16,14 +16,14 @@ void State::processInput() {
         if(event.type == SDL_QUIT) {
             running = false;
         } else if(event.type == SDL_KEYDOWN) {
-            if(event.key.keysym.sym == SDLK_UP)
+            if(event.key.keysym.sym == SDLK_w)
                 players[0]->movement = WALKING_FORWARD;
-            else if(event.key.keysym.sym == SDLK_DOWN)
+            else if(event.key.keysym.sym == SDLK_s)
                 players[0]->movement = WALKING_BACKWARD;
         } else if(event.type == SDL_KEYUP) {
-            if(event.key.keysym.sym == SDLK_UP)
+            if(event.key.keysym.sym == SDLK_w)
                 players[0]->movement = NONE;
-            else if(event.key.keysym.sym == SDLK_DOWN)
+            else if(event.key.keysym.sym == SDLK_s)
                 players[0]->movement = NONE;
             if(event.key.keysym.sym == SDLK_ESCAPE)
                 running = false;
