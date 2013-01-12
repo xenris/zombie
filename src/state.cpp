@@ -1,12 +1,32 @@
 #include "state.hpp"
 
-State::State() {
+State::State(int argc, char* args[]) {
     running = true;
-    screen = NULL;
     for(int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
         players[i] = NULL;
     Player* player = new Player;
     addPlayer(player);
+
+    SDL_Init(SDL_INIT_EVERYTHING);
+    SDL_WM_SetCaption("Cube", NULL);
+    screen = SDL_SetVideoMode(WIDTH, HEIGHT, 32, SDL_OPENGL);
+
+    SDL_EnableKeyRepeat(0, 0);
+
+    SDL_ShowCursor(SDL_DISABLE);
+
+    glMatrixMode(GL_PROJECTION);
+    float r = (float)WIDTH/HEIGHT;
+    glOrtho(-r, r, -1, 1, -1, 1);
+    glMatrixMode(GL_MODELVIEW);
+
+    glClearColor(0, 0, 0, 1);
+
+    SDL_Flip(screen);
+}
+
+State::~State() {
+    SDL_Quit();
 }
 
 void State::processInput() {
@@ -69,28 +89,4 @@ int State::addPlayer(Player* player) {
         return -1;
     players[i] = player;
     return 0;
-}
-
-void State::init(int argc, char* args[]) {
-    screen = NULL;
-    SDL_Init(SDL_INIT_EVERYTHING);
-    SDL_WM_SetCaption("Cube", NULL);
-    screen = SDL_SetVideoMode(WIDTH, HEIGHT, 32, SDL_OPENGL);
-
-    SDL_EnableKeyRepeat(0, 0);
-
-    SDL_ShowCursor(SDL_DISABLE);
-
-    glMatrixMode(GL_PROJECTION);
-    float r = (float)WIDTH/HEIGHT;
-    glOrtho(-r, r, -1, 1, -1, 1);
-    glMatrixMode(GL_MODELVIEW);
-
-    glClearColor(0, 0, 0, 1);
-
-    SDL_Flip(screen);
-}
-
-void State::uninit() {
-    SDL_Quit();
 }

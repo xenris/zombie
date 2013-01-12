@@ -16,13 +16,12 @@ class State {
         Player* players[MAX_NUMBER_OF_PLAYERS];
 //        Input input; //TODO
 
-        State();
+        State(int argc, char* args[]);
+        ~State();
         void processInput();
         void update();
         void draw();
         int addPlayer(Player* player);
-        void init(int argc, char* args[]);
-        void uninit();
 };
 
 #endif

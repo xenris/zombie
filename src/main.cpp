@@ -1,8 +1,7 @@
 #include "main.hpp"
 
 int main(int argc, char* args[]) {
-    State state;
-    state.init(argc, args);
+    State state(argc, args);
 
     while(state.running) {
         state.processInput();
@@ -11,8 +10,6 @@ int main(int argc, char* args[]) {
 
         state.draw();
     }
-
-    state.uninit();
 
     return 0;
 }
