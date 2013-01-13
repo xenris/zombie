@@ -9,8 +9,6 @@ ServerState::ServerState() {
 
     SDL_EnableKeyRepeat(0, 0);
 
-    SDL_ShowCursor(SDL_DISABLE);
-
     glMatrixMode(GL_PROJECTION);
     float r = (float)WIDTH/HEIGHT;
     glOrtho(-r, r, -1, 1, -1, 1);
