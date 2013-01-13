@@ -14,7 +14,6 @@ class State {
         bool running;
         SDL_Surface* screen;
         Player* players[MAX_NUMBER_OF_PLAYERS];
-//        Input input; //TODO
 
         State(int argc, char* args[]);
         ~State();
