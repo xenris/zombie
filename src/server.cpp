@@ -5,5 +5,7 @@ void runServer(int argc, char* args[]) {
 
     while(serverState.running) {
         serverState.processInput();
+        serverState.receive();
+        serverState.send();
     }
 }

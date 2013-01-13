@@ -3,6 +3,8 @@
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_opengl.h>
+#include <SDL/SDL_net.h>
+#include <string.h>
 #include "player.hpp"
 
 #define WIDTH 700
@@ -14,6 +16,9 @@ class ClientState {
         bool running;
         SDL_Surface* screen;
         Player* players[MAX_NUMBER_OF_PLAYERS];
+        UDPsocket socket;
+        IPaddress address;
+        UDPpacket* packet;
 
         ClientState(int argc, char* args[]);
         ~ClientState();
@@ -21,6 +26,8 @@ class ClientState {
         void update();
         void draw();
         int addPlayer(Player* player);
+        void receive();
+        void send();
 };
 
 #endif

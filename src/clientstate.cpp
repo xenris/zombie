@@ -23,9 +23,23 @@ ClientState::ClientState(int argc, char* args[]) {
     glClearColor(0, 0, 0, 1);
 
     SDL_Flip(screen);
+
+    SDLNet_Init();
+    socket = SDLNet_UDP_Open(0);
+    SDLNet_ResolveHost(&address, "10.0.0.5", 9999);
+
+    packet = SDLNet_AllocPacket(512);
 }
 
 ClientState::~ClientState() {
+    strcpy((char*)packet->data, "quit");
+    packet->address.host = address.host;
+    packet->address.port = address.port;
+    packet->len = strlen((char*)packet->data) + 1;
+    SDLNet_UDP_Send(socket, -1, packet);
+
+    SDLNet_FreePacket(packet);
+    SDLNet_Quit();
     SDL_Quit();
 }
 
@@ -89,4 +103,31 @@ int ClientState::addPlayer(Player* player) {
         return -1;
     players[i] = player;
     return 0;
+}
+
+void ClientState::receive() {
+    if(SDLNet_UDP_Recv(socket, packet)) {
+        printf("UDP Packet incoming\n");
+        printf("\tChan:    %d\n", packet->channel);
+        printf("\tData:    %s\n", (char*)packet->data);
+        printf("\tLen:     %d\n", packet->len);
+        printf("\tMaxlen:  %d\n", packet->maxlen);
+        printf("\tStatus:  %d\n", packet->status);
+        printf("\tAddress: %x %x\n", packet->address.host, packet->address.port);
+    }
+}
+
+void ClientState::send() {
+    packet->data[0] = 'h';
+    packet->data[1] = 'e';
+    packet->data[2] = 'l';
+    packet->data[3] = 'l';
+    packet->data[4] = 'o';
+    packet->data[5] = '\0';
+    packet->len = 6;
+    packet->address.host = address.host;
+	packet->address.port = address.port;
+
+	packet->len = strlen((char*)packet->data) + 1;
+	SDLNet_UDP_Send(socket, -1, packet);
 }

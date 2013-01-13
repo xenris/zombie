@@ -9,5 +9,9 @@ void runClient(int argc, char* args[]) {
         clientState.update();
 
         clientState.draw();
+
+        clientState.send();
+
+        clientState.receive();
     }
 }
