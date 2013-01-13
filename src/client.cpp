@@ -1,13 +1,13 @@
 #include "client.hpp"
 
 void runClient(int argc, char* args[]) {
-    State state(argc, args);
+    ClientState clientState(argc, args);
 
-    while(state.running) {
-        state.processInput();
+    while(clientState.running) {
+        clientState.processInput();
 
-        state.update();
+        clientState.update();
 
-        state.draw();
+        clientState.draw();
     }
 }

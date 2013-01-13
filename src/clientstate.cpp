@@ -1,6 +1,6 @@
-#include "state.hpp"
+#include "clientstate.hpp"
 
-State::State(int argc, char* args[]) {
+ClientState::ClientState(int argc, char* args[]) {
     running = true;
     for(int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
         players[i] = NULL;
@@ -25,11 +25,11 @@ State::State(int argc, char* args[]) {
     SDL_Flip(screen);
 }
 
-State::~State() {
+ClientState::~ClientState() {
     SDL_Quit();
 }
 
-void State::processInput() {
+void ClientState::processInput() {
     SDL_Event event;
 
     while(SDL_PollEvent(&event)) {
@@ -64,13 +64,13 @@ void State::processInput() {
     SDL_WarpMouse(WIDTH/2, HEIGHT/2);
 }
 
-void State::update() {
+void ClientState::update() {
     for(int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
         if(players[i] != NULL)
             players[i]->update();
 }
 
-void State::draw() {
+void ClientState::draw() {
     glClear(GL_COLOR_BUFFER_BIT);
     glLoadIdentity();
 
@@ -81,7 +81,7 @@ void State::draw() {
     SDL_GL_SwapBuffers();
 }
 
-int State::addPlayer(Player* player) {
+int ClientState::addPlayer(Player* player) {
     int i = 0;
     while(players[i] != NULL && i < MAX_NUMBER_OF_PLAYERS)
         i++;
