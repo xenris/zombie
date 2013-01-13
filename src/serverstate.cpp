@@ -53,3 +53,11 @@ void ServerState::receive() {
 void ServerState::send() {
 	SDLNet_UDP_Send(socket, -1, packet);
 }
+
+void ServerState::update() {
+    gameModel.update();
+}
+
+void ServerState::draw() {
+    gameModel.draw();
+}

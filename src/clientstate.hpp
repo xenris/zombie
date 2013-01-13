@@ -7,17 +7,16 @@
 #include <string.h>
 #include <iostream>
 using namespace std;
-#include "player.hpp"
+#include "gamemodel.hpp"
 
 #define WIDTH 700
 #define HEIGHT 500
-#define MAX_NUMBER_OF_PLAYERS 20
 
 class ClientState {
     public:
+        GameModel gameModel;
         bool running;
         SDL_Surface* screen;
-        Player* players[MAX_NUMBER_OF_PLAYERS];
         UDPsocket socket;
         IPaddress address;
         UDPpacket* packet;
