@@ -5,6 +5,8 @@
 #include <SDL/SDL_opengl.h>
 #include <SDL/SDL_net.h>
 #include <string.h>
+#include <iostream>
+using namespace std;
 #include "player.hpp"
 
 #define WIDTH 700

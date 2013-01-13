@@ -1,6 +1,10 @@
 #include "clientstate.hpp"
 
 ClientState::ClientState(int argc, char* args[]) {
+    if(argc != 2) {
+        cout << "need to enter ip address" << endl;
+        exit(EXIT_FAILURE);
+    }
     running = true;
     for(int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
         players[i] = NULL;
@@ -26,7 +30,7 @@ ClientState::ClientState(int argc, char* args[]) {
 
     SDLNet_Init();
     socket = SDLNet_UDP_Open(0);
-    SDLNet_ResolveHost(&address, "10.0.0.5", 9999);
+    SDLNet_ResolveHost(&address, args[1], 9999);
 
     packet = SDLNet_AllocPacket(512);
 }
