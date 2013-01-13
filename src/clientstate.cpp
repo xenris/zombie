@@ -8,7 +8,7 @@ ClientState::ClientState(int argc, char* args[]) {
     addPlayer(player);
 
     SDL_Init(SDL_INIT_EVERYTHING);
-    SDL_WM_SetCaption("Cube", NULL);
+    SDL_WM_SetCaption("Zombie Client", NULL);
     screen = SDL_SetVideoMode(WIDTH, HEIGHT, 32, SDL_OPENGL);
 
     SDL_EnableKeyRepeat(0, 0);
