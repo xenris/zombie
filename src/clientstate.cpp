@@ -6,10 +6,8 @@ ClientState::ClientState(int argc, char* args[]) {
         exit(EXIT_FAILURE);
     }
     running = true;
-//    for(int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
-//        players[i] = NULL;
-//    Player* player = new Player;
-//    addPlayer(player);
+
+    me = new Player();
 
     SDL_Init(SDL_INIT_EVERYTHING);
     SDL_WM_SetCaption("Zombie Client", NULL);
@@ -51,87 +49,78 @@ void ClientState::processInput() {
     SDL_Event event;
 
     while(SDL_PollEvent(&event)) {
-        if(event.type == SDL_QUIT)
+        if(event.type == SDL_QUIT) {
             running = false;
-//        } else if(event.type == SDL_KEYDOWN) {
-//            if(event.key.keysym.sym == SDLK_w)
-//                players[0]->forward = true;
-//            else if(event.key.keysym.sym == SDLK_s)
-//                players[0]->backward = true;
-//            else if(event.key.keysym.sym == SDLK_a)
-//                players[0]->left = true;
-//            else if(event.key.keysym.sym == SDLK_d)
-//                players[0]->right = true;
-//        } else if(event.type == SDL_KEYUP) {
-//            if(event.key.keysym.sym == SDLK_w)
-//                players[0]->forward = false;
-//            else if(event.key.keysym.sym == SDLK_s)
-//                players[0]->backward = false;
-//            else if(event.key.keysym.sym == SDLK_a)
-//                players[0]->left = false;
-//            else if(event.key.keysym.sym == SDLK_d)
-//                players[0]->right = false;
-//            if(event.key.keysym.sym == SDLK_ESCAPE)
-//                running = false;
-//        } else if(event.type == SDL_MOUSEMOTION) {
-//            if(event.motion.x != WIDTH/2)
-//                players[0]->r += (float)event.motion.xrel/5.0;
-//        }
+        } else if(event.type == SDL_KEYDOWN) {
+            if(event.key.keysym.sym == SDLK_w)
+                me->forward = true;
+            else if(event.key.keysym.sym == SDLK_s)
+                me->backward = true;
+            else if(event.key.keysym.sym == SDLK_a)
+                me->left = true;
+            else if(event.key.keysym.sym == SDLK_d)
+                me->right = true;
+        } else if(event.type == SDL_KEYUP) {
+            if(event.key.keysym.sym == SDLK_w)
+                me->forward = false;
+            else if(event.key.keysym.sym == SDLK_s)
+                me->backward = false;
+            else if(event.key.keysym.sym == SDLK_a)
+                me->left = false;
+            else if(event.key.keysym.sym == SDLK_d)
+                me->right = false;
+            if(event.key.keysym.sym == SDLK_ESCAPE)
+                running = false;
+        } else if(event.type == SDL_MOUSEMOTION) {
+            if(event.motion.x != WIDTH/2)
+                me->r += (float)event.motion.xrel/5.0;
+        }
     }
 
     SDL_WarpMouse(WIDTH/2, HEIGHT/2);
 }
 
 void ClientState::update() {
-//    for(int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
-//        if(players[i] != NULL)
-//            players[i]->update();
+    gameModel.update();
 }
 
 void ClientState::draw() {
-    glClear(GL_COLOR_BUFFER_BIT);
-    glLoadIdentity();
-
-//    for(int i = 0; i < MAX_NUMBER_OF_PLAYERS; i++)
-//        if(players[i] != NULL)
-//            players[i]->draw();
-
-    SDL_GL_SwapBuffers();
+    gameModel.draw();
 }
-
-//int ClientState::addPlayer(Player* player) {
-//    int i = 0;
-//    while(players[i] != NULL && i < MAX_NUMBER_OF_PLAYERS)
-//        i++;
-//    if(i >= MAX_NUMBER_OF_PLAYERS)
-//        return -1;
-//    players[i] = player;
-//    return 0;
-//}
 
 void ClientState::receive() {
     if(SDLNet_UDP_Recv(socket, packet)) {
-        printf("UDP Packet incoming\n");
-        printf("\tChan:    %d\n", packet->channel);
-        printf("\tData:    %s\n", (char*)packet->data);
-        printf("\tLen:     %d\n", packet->len);
-        printf("\tMaxlen:  %d\n", packet->maxlen);
-        printf("\tStatus:  %d\n", packet->status);
-        printf("\tAddress: %x %x\n", packet->address.host, packet->address.port);
+        int serverNumberOfPlayers = packet->data[0];
+        float* data = (float*)&packet->data[1];
+        int numberOfPlayers = gameModel.numberOfPlayers();
+
+        while(numberOfPlayers < serverNumberOfPlayers) {
+            gameModel.addPlayer();
+            numberOfPlayers++;
+        }
+        while(numberOfPlayers > serverNumberOfPlayers) {
+            gameModel.removeLastPlayer();
+            numberOfPlayers--;
+        }
+        for(int i = 0; i < serverNumberOfPlayers; i++) {
+            gameModel.players[i]->x = data[i*3+0];
+            gameModel.players[i]->y = data[i*3+1];
+            gameModel.players[i]->r = data[i*3+2];
+        }
     }
 }
 
 void ClientState::send() {
-    packet->data[0] = 'h';
-    packet->data[1] = 'e';
-    packet->data[2] = 'l';
-    packet->data[3] = 'l';
-    packet->data[4] = 'o';
-    packet->data[5] = '\0';
-    packet->len = 6;
+    bool* data = (bool*)packet->data;
+    data[0] = me->forward;
+    data[1] = me->backward;
+    data[2] = me->left;
+    data[3] = me->right;
+    float* dataf = (float*)&data[4];
+    *dataf = me->r;
+    packet->len = 8;
     packet->address.host = address.host;
 	packet->address.port = address.port;
 
-	packet->len = strlen((char*)packet->data) + 1;
 	SDLNet_UDP_Send(socket, -1, packet);
 }

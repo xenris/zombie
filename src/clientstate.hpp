@@ -15,6 +15,7 @@ using namespace std;
 class ClientState {
     public:
         GameModel gameModel;
+        Player* me;
         bool running;
         SDL_Surface* screen;
         UDPsocket socket;

@@ -40,18 +40,31 @@ void ServerState::processInput() {
 
 void ServerState::receive() {
     if(SDLNet_UDP_Recv(socket, packet)) {
-        printf("UDP Packet incoming\n");
-        printf("\tChan:    %d\n", packet->channel);
-        printf("\tData:    %s\n", (char*)packet->data);
-        printf("\tLen:     %d\n", packet->len);
-        printf("\tMaxlen:  %d\n", packet->maxlen);
-        printf("\tStatus:  %d\n", packet->status);
-        printf("\tAddress: %x %x\n", packet->address.host, packet->address.port);
+        Client* client = clientList.getClient(packet->address.host, packet->address.port);
+        if(client == NULL) {
+            client = clientList.addClient(packet->address.host, packet->address.port, gameModel.addPlayer());
+            if(client == NULL)
+                return;
+        }
+        bool* data = (bool*)packet->data;
+        client->player->forward = data[0];
+        client->player->backward = data[1];
+        client->player->left = data[2];
+        client->player->right = data[3];
+        float* dataf = (float*)&packet->data[4];
+        client->player->r = *dataf;
     }
 }
 
 void ServerState::send() {
-	SDLNet_UDP_Send(socket, -1, packet);
+    packet->len = gameModel.serialize(packet->data);;
+    for(int i = 0; i < MAX_NUMBER_OF_CLIENTS; i++) {
+        if(clientList.clients[i] != NULL) {
+            packet->address.host = clientList.clients[i]->address;
+            packet->address.port = clientList.clients[i]->port;
+	        SDLNet_UDP_Send(socket, -1, packet);
+        }
+    }
 }
 
 void ServerState::update() {

@@ -6,12 +6,12 @@ void runClient(int argc, char* args[]) {
     while(clientState.running) {
         clientState.processInput();
 
-        clientState.update();
-
-        clientState.draw();
-
         clientState.send();
 
         clientState.receive();
+
+//        clientState.update();
+
+        clientState.draw();
     }
 }

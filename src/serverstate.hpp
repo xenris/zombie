@@ -6,6 +6,7 @@
 #include <SDL/SDL_net.h>
 #include <string.h>
 #include "gamemodel.hpp"
+#include "clientlist.hpp"
 
 #define WIDTH 700
 #define HEIGHT 500
@@ -13,6 +14,7 @@
 class ServerState {
     public:
         GameModel gameModel;
+        ClientList clientList;
         bool running;
         SDL_Surface* screen;
         UDPsocket socket;
