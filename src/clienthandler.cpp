@@ -1,11 +1,11 @@
-#include "clientlist.hpp"
+#include "clienthandler.hpp"
 
-ClientList::ClientList() {
+ClientHandler::ClientHandler() {
     for(int i = 0; i < MAX_NUMBER_OF_CLIENTS; i++)
         clients[i] = NULL;
 }
 
-Client* ClientList::addClient(int address, int port, Player* player) {
+Client* ClientHandler::addClient(int address, int port, Player* player) {
     int i = 0;
     while((clients[i] != NULL) && (i < MAX_NUMBER_OF_CLIENTS)) i++;
     if(i < MAX_NUMBER_OF_CLIENTS) {
@@ -16,7 +16,7 @@ Client* ClientList::addClient(int address, int port, Player* player) {
     return NULL;
 }
 
-void ClientList::removeClient(int address, int port) {
+void ClientHandler::removeClient(int address, int port) {
     for(int i = 0; i < MAX_NUMBER_OF_CLIENTS; i++) {
         if(clients[i] != NULL) {
             if((clients[i]->address == address) && (clients[i]->port == port)) {
@@ -27,7 +27,7 @@ void ClientList::removeClient(int address, int port) {
     }
 }
 
-Client* ClientList::getClient(int address, int port) {
+Client* ClientHandler::getClient(int address, int port) {
     for(int i = 0; i < MAX_NUMBER_OF_CLIENTS; i++)
         if(clients[i] != NULL)
             if((clients[i]->address == address) && (clients[i]->port == port))

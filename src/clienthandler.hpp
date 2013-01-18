@@ -1,5 +1,5 @@
-#ifndef CLIENTLIST_HPP
-#define CLIENTLIST_HPP
+#ifndef CLIENTHANDLER_HPP
+#define CLIENTHANDLER_HPP
 
 #include <stddef.h>
 #include "player.hpp"
@@ -8,11 +8,11 @@
 
 class Client;
 
-class ClientList {
+class ClientHandler {
     public:
         Client* clients[MAX_NUMBER_OF_CLIENTS];
 
-        ClientList();
+        ClientHandler();
         Client* addClient(int address, int port, Player* player);
         void removeClient(int address, int port);
         Client* getClient(int address, int port);

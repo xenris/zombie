@@ -40,9 +40,9 @@ void ServerState::processInput() {
 
 void ServerState::receive() {
     if(SDLNet_UDP_Recv(socket, packet)) {
-        Client* client = clientList.getClient(packet->address.host, packet->address.port);
+        Client* client = clientHandler.getClient(packet->address.host, packet->address.port);
         if(client == NULL) {
-            client = clientList.addClient(packet->address.host, packet->address.port, gameModel.addPlayer());
+            client = clientHandler.addClient(packet->address.host, packet->address.port, gameModel.addPlayer());
             if(client == NULL)
                 return;
         }
@@ -59,9 +59,9 @@ void ServerState::receive() {
 void ServerState::send() {
     packet->len = gameModel.serialize(packet->data);;
     for(int i = 0; i < MAX_NUMBER_OF_CLIENTS; i++) {
-        if(clientList.clients[i] != NULL) {
-            packet->address.host = clientList.clients[i]->address;
-            packet->address.port = clientList.clients[i]->port;
+        if(clientHandler.clients[i] != NULL) {
+            packet->address.host = clientHandler.clients[i]->address;
+            packet->address.port = clientHandler.clients[i]->port;
 	        SDLNet_UDP_Send(socket, -1, packet);
         }
     }
