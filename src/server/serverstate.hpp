@@ -1,35 +1,32 @@
-#ifndef CLIENTSTATE_HPP
-#define CLIENTSTATE_HPP
+#ifndef SERVERSTATE_HPP
+#define SERVERSTATE_HPP
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_opengl.h>
 #include <SDL/SDL_net.h>
 #include <string.h>
-#include <iostream>
-using namespace std;
-#include "gamemodel.hpp"
+#include "../game/gamemodel.hpp"
+#include "clienthandler.hpp"
 
 #define WIDTH 700
 #define HEIGHT 500
 
-class ClientState {
+class ServerState {
     public:
         GameModel gameModel;
-        Player* me;
+        ClientHandler clientHandler;
         bool running;
         SDL_Surface* screen;
         UDPsocket socket;
-        IPaddress address;
         UDPpacket* packet;
 
-        ClientState(int argc, char* args[]);
-        ~ClientState();
+        ServerState();
+        ~ServerState();
         void processInput();
-        void update();
-        void draw();
-        int addPlayer(Player* player);
         void receive();
         void send();
+        void update();
+        void draw();
 };
 
 #endif

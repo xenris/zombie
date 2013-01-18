@@ -1,7 +1,7 @@
 #ifndef MAIN_HPP
 #define MAIN_HPP
 
-#include "client.hpp"
-#include "server.hpp"
+#include "client/client.hpp"
+#include "server/server.hpp"
 
 #endif

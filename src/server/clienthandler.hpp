@@ -2,7 +2,7 @@
 #define CLIENTHANDLER_HPP
 
 #include <stddef.h>
-#include "player.hpp"
+#include "../game/player.hpp"
 
 #define MAX_NUMBER_OF_CLIENTS 20
 
